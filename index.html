@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>کینگ رضا - دانلود</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body {
+    margin:0;
+    font-family: 'Vazirmatn', sans-serif;
+    overflow: hidden;
+    background: #000;
+    color: #fff;
+}
+
+canvas#matrix {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
+}
+
+/* wrapper */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    transform: translateY(0%);
+    z-index: 1;
+    text-align:center;
+}
+
+/* متن بالا */
+#top-text {
+    font-size: 2em;
+    color: #ff0000;
+    text-shadow: 0 0 10px #ff1a1a, 0 0 20px #ff3300;
+    margin-bottom: 50px;
+    animation: flicker 0.15s infinite alternate;
+}
+
+/* لینک دانلود */
+#download-link {
+    font-size: 1.8em;
+    color: #00ff00;
+    text-decoration: none;
+    background: rgba(0,0,0,0.7);
+    padding: 15px 25px;
+    border: 2px solid #00ff00;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00ff00, 0 0 40px #00ff88;
+    transition: 0.3s;
+}
+
+#download-link:hover {
+    box-shadow: 0 0 40px #00ff00, 0 0 80px #00ff88;
+    transform: scale(1.05);
+}
+
+/* افکت flicker متن */
+@keyframes flicker {
+    0% {opacity:1;}
+    50% {opacity:0.5;}
+    100% {opacity:1;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="wrapper">
+    <div id="top-text">
+        ⚠️ مضنون! قبل از اینکه این موهبت را از تو بگیرم، فرار کن ⚠️
+    </div>
+    <a href="https://limewire.com/d/1ZWXi#oNjyz1Zte3" id="download-link" target="_blank">دانلود فایل</a>
+</div>
+
+<script>
+// ماتریکس کامل
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+let w = canvas.width = window.innerWidth;
+let h = canvas.height = window.innerHeight;
+
+const letters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const fontSize = 16;
+let columns = Math.floor(w/fontSize);
+let drops = Array(columns).fill(1);
+
+function drawMatrix() {
+    ctx.fillStyle = 'rgba(0,0,0,0.1)';
+    ctx.fillRect(0,0,w,h);
+    ctx.fillStyle = '#ff0000';
+    ctx.font = fontSize+'px monospace';
+    for(let i=0;i<drops.length;i++){
+        const text = letters[Math.floor(Math.random()*letters.length)];
+        ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+        if(drops[i]*fontSize>h || Math.random()>0.975) drops[i]=0;
+        drops[i]++;
+    }
+}
+setInterval(drawMatrix,50);
+
+window.addEventListener('resize',()=>{
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    columns = Math.floor(w/fontSize);
+    drops = Array(columns).fill(1);
+});
+</script>
+
+</body>
+</html>
